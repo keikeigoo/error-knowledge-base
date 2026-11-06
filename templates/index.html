@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}エラー一覧 | Error Knowledge Base{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div><p class="eyebrow">ERROR RECORDS</p><h1>エラー解決ナレッジベース</h1><p class="description">発生したエラーと解決方法を記録し、必要な情報を検索できます。</p></div>
+    <a class="button" href="{{ url_for('create') }}">新しいエラーを登録</a>
+</section>
+<section class="search-panel">
+<form method="GET" action="{{ url_for('index') }}"><div class="search-grid">
+    <div class="form-group"><label for="keyword">キーワード</label><input id="keyword" type="search" name="keyword" value="{{ keyword }}" placeholder="エラー名・カテゴリ・発生状況・解決方法"></div>
+    <div class="form-group"><label for="category">カテゴリ</label><select id="category" name="category"><option value="">すべてのカテゴリ</option>{% for row in categories %}<option value="{{ row['category'] }}" {% if selected_category == row['category'] %}selected{% endif %}>{{ row['category'] }}</option>{% endfor %}</select></div>
+    <div class="search-actions"><button type="submit">検索</button><a class="button secondary-button" href="{{ url_for('index') }}">クリア</a></div>
+</div></form>
+</section>
+<div class="result-header"><h2>検索結果</h2><span>{{ errors|length }}件</span></div>
+{% if errors %}<div class="card-list">{% for error in errors %}
+<article class="card">
+    <div class="card-top"><span class="category-badge">{{ error['category'] }}</span><span class="created-at">{{ error['created_at'].strftime('%Y-%m-%d %H:%M') }}</span></div>
+    <h2>{{ error['error_name'] }}</h2><p class="preview-text">{{ error['situation']|truncate(100) }}</p>
+    <div class="card-actions"><a class="button small-button" href="{{ url_for('detail', i=error['id']) }}">詳細</a><a class="button secondary-button small-button" href="{{ url_for('edit', i=error['id']) }}">編集</a><form class="inline-form" method="POST" action="{{ url_for('delete', i=error['id']) }}" onsubmit="return confirm('このエラー情報を削除しますか？');"><button class="danger-button small-button" type="submit">削除</button></form></div>
+</article>{% endfor %}</div>
+{% else %}<section class="empty-state"><h2>該当するデータがありません</h2><p>検索条件を変更するか、新しいエラー情報を登録してください。</p></section>{% endif %}
+{% endblock %}

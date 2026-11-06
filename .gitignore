@@ -1,0 +1,11 @@
+# ローカル設定・秘密情報
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+*.log
+*.sql.gz

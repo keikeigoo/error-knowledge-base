@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}{{ error['error_name'] }} | Error Knowledge Base{% endblock %}
+{% block content %}
+<article class="detail-card"><div class="detail-header"><span class="category-badge">{{ error['category'] }}</span><h1>{{ error['error_name'] }}</h1><p class="created-at">登録日時：{{ error['created_at'].strftime('%Y-%m-%d %H:%M') }}</p></div>
+<section class="detail-section"><h2>発生状況</h2><p class="multiline-text">{{ error['situation'] }}</p></section>
+<section class="detail-section solution-section"><h2>解決方法</h2><p class="multiline-text">{{ error['solution'] }}</p></section>
+<div class="form-actions detail-actions"><a class="button" href="{{ url_for('edit', i=error['id']) }}">編集する</a><a class="button secondary-button" href="{{ url_for('index') }}">一覧へ戻る</a><form class="inline-form" method="POST" action="{{ url_for('delete', i=error['id']) }}" onsubmit="return confirm('このエラー情報を削除しますか？');"><button class="danger-button" type="submit">削除する</button></form></div></article>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} | Error Knowledge Base{% endblock %}
+{% block content %}
+<section class="form-container"><p class="eyebrow">{% if error %}UPDATE{% else %}CREATE{% endif %} RECORD</p><h1>{{ heading }}</h1>
+{% if validation_errors %}<div class="validation-box"><strong>入力内容を確認してください。</strong><ul>{% for message in validation_errors %}<li>{{ message }}</li>{% endfor %}</ul></div>{% endif %}
+<form method="POST" novalidate>
+<div class="form-group"><label for="error_name">エラー名 <span class="required">必須</span></label><input id="error_name" name="error_name" maxlength="100" value="{{ form_data['error_name'] }}" required></div>
+<div class="form-group"><label for="category">カテゴリ <span class="required">必須</span></label><input id="category" name="category" maxlength="50" value="{{ form_data['category'] }}" required></div>
+<div class="form-group"><label for="situation">発生状況 <span class="required">必須</span></label><textarea id="situation" name="situation" rows="6" maxlength="1000" required>{{ form_data['situation'] }}</textarea></div>
+<div class="form-group"><label for="solution">解決方法 <span class="required">必須</span></label><textarea id="solution" name="solution" rows="8" maxlength="2000" required>{{ form_data['solution'] }}</textarea></div>
+<div class="form-actions"><button type="submit">{{ button }}</button><a class="button secondary-button" href="{% if error %}{{ url_for('detail', i=error['id']) }}{% else %}{{ url_for('index') }}{% endif %}">キャンセル</a></div>
+</form></section>
+{% endblock %}
